@@ -79,4 +79,4 @@ class Doc2vecLearner:
 
 if __name__ == "__main__":
     a = Doc2vecLearner()
-    a.learn_doc2vec(model_save='model/test.d2v', negative=10)
+    a.learn_doc2vec(model_save='model/twitter1.d2v')
