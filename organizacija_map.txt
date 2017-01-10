@@ -1,0 +1,14 @@
+data (mapa):
+- arabic, english (mapi) // downloadano s strani tekmovanja
+  - data_twits (mapa (znotraj obeh map)) 
+    - [datoteke s tweeti s strani tekmovanja]
+
+- corpus (mapa) // downloadano s skripto streamer.py
+  - negative.txt, positive.txt (poz. / neg. tviti v obeh jezikih)
+  - tweets arabic.txt (tweeti v arab., tudi retviti)
+  - emoji.txt (emoticons)
+  - abbreviations.txt (kratice/krajšave in njihove originalne besede/fraze)
+
+streamer.py - skripta za download tvitov
+preprocessor.py - skripta za predprocesiranje (zaenkrat lahko tokenizira in določi jezik)
+old.py - datoteka za razno kodo, ki jo začasno kopiraš v to datoteko, da ti ni treba drugega editorja odpirat in v njem urejat kode

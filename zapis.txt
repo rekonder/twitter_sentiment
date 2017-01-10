@@ -1,0 +1,30 @@
+[('positive', 0.42674119509299563), ('neutral', 0.4283240997229917),  ('negative', 0.14493470518401266)]
+[('positive', 0.4592019058963669),  ('neutral', 0.36628945801072066), ('negative', 0.17450863609291245)]
+[('positive', 0.3445910596988897),  ('neutral', 0.5043306400046503),  ('negative', 0.1510783002964599)]
+
+model: 'model/twitter.d2v' 
+doc2vec: min_count=1, window=5, size=200, sample=1e-5, negative=5, workers=16
+positive:  0.4779507133592737
+neutral:  0.005119453924914676
+negative:  0.5365853658536586
+Accurancy:  0.4169148302561048
+F1:  0.45679603558341575
+macro-avarage:  0.339885177713
+
+
+positive:  0.4773022049286641
+neutral:  0.0
+negative:  0.5390243902439025
+Accurancy:  0.416617033948779
+F1:  0.45628867438406595
+macro-avarage:  0.338775531724
+
+model: 'model/twitter1.d2v'  
+doc2vec: default
+positive:  0.5220492866407264
+neutral:  0.023890784982935155
+negative:  0.540650406504065
+Accurancy:  0.44192972007147113
+F1:  0.48067638461639395
+macro-avarage:  0.362196826043
+
