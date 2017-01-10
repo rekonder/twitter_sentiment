@@ -28,3 +28,21 @@ Accurancy:  0.44192972007147113
 F1:  0.48067638461639395
 macro-avarage:  0.362196826043
 
+model: 'model/twitter1.d2v'  
+doc2vec: default
+model: LogisticRegression(class_weight='balanced')
+positive:  0.43190661478599224
+neutral:  0.3191126279863481
+negative:  0.43414634146341463
+Accurancy:  0.41304347826086957
+F1:  0.4436525755728229
+macro-avarage:  0.395055194745
+
+
+positive:  0.3223086900129702
+neutral:  0.5477815699658704
+negative:  0.3260162601626016
+Accurancy:  0.363013698630137
+F1:  0.3789002753614399
+macro-avarage:  0.39870217338
+
