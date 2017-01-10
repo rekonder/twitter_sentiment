@@ -7,26 +7,19 @@ doc2vec: min_count=1, window=5, size=200, sample=1e-5, negative=5, workers=16
 positive:  0.4779507133592737
 neutral:  0.005119453924914676
 negative:  0.5365853658536586
-Accurancy:  0.4169148302561048
+Accuracy:  0.4169148302561048
 F1:  0.45679603558341575
-macro-avarage:  0.339885177713
+macro-avg:  0.339885177713
 
-
-positive:  0.4773022049286641
-neutral:  0.0
-negative:  0.5390243902439025
-Accurancy:  0.416617033948779
-F1:  0.45628867438406595
-macro-avarage:  0.338775531724
 
 model: 'model/twitter1.d2v'  
 doc2vec: default
 positive:  0.5220492866407264
 neutral:  0.023890784982935155
 negative:  0.540650406504065
-Accurancy:  0.44192972007147113
+Accuracy:  0.44192972007147113
 F1:  0.48067638461639395
-macro-avarage:  0.362196826043
+macro-avg:  0.362196826043
 
 model: 'model/twitter1.d2v'  
 doc2vec: default
@@ -34,15 +27,24 @@ model: LogisticRegression(class_weight='balanced')
 positive:  0.43190661478599224
 neutral:  0.3191126279863481
 negative:  0.43414634146341463
-Accurancy:  0.41304347826086957
 F1:  0.4436525755728229
-macro-avarage:  0.395055194745
+Accuracy:  0.41304347826086957
+macro-avg:  0.395055194745
 
 
-positive:  0.3223086900129702
-neutral:  0.5477815699658704
-negative:  0.3260162601626016
-Accurancy:  0.363013698630137
-F1:  0.3789002753614399
-macro-avarage:  0.39870217338
+model: tfidf
+model: LogisticRegression(class_weight='balanced')
+positive recall:  0.4260700389105058
+neutral recall:  0.3822525597269625
+negative recall:  0.6292682926829268
+F1:  0.5201284657686893
+Accuracy:  0.492852888624
+Macro-avg:  0.479196963773
 
+
+positive recall:  0.5625843454790823
+neutral recall:  0.422085417468257
+negative recall:  0.67139234670355
+F1:  0.6226267110656871
+Accuracy:  0.596233215137
+Macro-avg:  0.552020703217

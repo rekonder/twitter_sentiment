@@ -2,7 +2,7 @@ import csv
 
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import recall_score
-
+from preprocessor import ParseTweets
 
 def count_classes(data="data/english/data_twits/Subtask_A_clean/dev_test.txt"):
     count = {"positive": 0, "negative": 0, "neutral": 0}
@@ -25,27 +25,38 @@ def sentiment_to_number(x):
         return 0
 
 
-def read_train_test_data(model, train="data/english/data_twits/Subtask_A_clean/train.txt",
-                         test="data/english/data_twits/Subtask_A_clean/dev_test.txt"):
+def read_train_test_data(model, mode="doc2vec", train="data/english/data_twits/Subtask_A_clean/train.txt",
+                         test="data/english/data_twits/Subtask_A_clean/test.txt"):
     train_X, train_Y, test_X, test_Y = [], [], [], []
+    pt = ParseTweets()
     print("Read training")
     with open(train, "r") as fil:
         try:
             reader = csv.reader(fil, delimiter='\t')
             for row in reader:
-                train_X.append(model.doctext_to_vec(row[2]))
+                if mode == "doc2vec":
+                    train_X.append(model.doctext_to_vec(row[2]))
+                elif mode == "tfidf":
+                    train_X.append(pt.tokenize_one_line(row[2]))
                 train_Y.append(sentiment_to_number(row[1]))
         except:
             pass
+    if mode == "tfidf":
+        train_X = model.transform_tfidf(train_X)
     print("Read dev_test")
     with open(test, "r") as fil:
         try:
             reader = csv.reader(fil, delimiter='\t')
             for row in reader:
-                test_X.append(model.doctext_to_vec(row[2]))
+                if mode == "doc2vec":
+                    test_X.append(model.doctext_to_vec(row[2]))
+                elif mode == "tfidf":
+                    test_X.append(pt.tokenize_one_line(row[2]))
                 test_Y.append(sentiment_to_number(row[1]))
         except:
             pass
+    if mode == "tfidf":
+        test_X = model.transform_tfidf(test_X)
     return train_X, train_Y, test_X, test_Y
 
 def measurement(real, prediction):
