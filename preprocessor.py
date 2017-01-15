@@ -26,42 +26,32 @@ class ParseTweets:
 
     def tokenize(self, file):
         with open(file, "r") as tf:
-            lines = tf.readlines()
-            for text in lines:
-                new_text = self.tokenize_one_line(text)
-                print("orig:", text, "tokens:", new_text)
+            for text in tf.readlines():
+                print("orig:", text, "tokens:", self.tokenize_one_line(text))
                 print("")
 
     def parseUsers(self, text):
-        # izbrise uporabnike (@user)
-        # ce je treba bolj obdelat: re.findall() ... in potem obdelas najdene
-        text = re.sub('\@[\w]*', '', text)
-        return text
+        """
+        izbrise uporabnike (@user)
+        """
+        return re.sub('\@[\w]*', '', text)
 
     def parseLinks(self, text):
-        # izbrise povezave (http...)
-        # ce je treba bolj obdelat: re.findall() ... in potem obdelas najdene
-        text = re.sub('http[\w\:\/\.]*', '', text)
-
-        return text
+        """
+        Brisanje linkov v tweetu
+        """
+        return re.sub('http[\w\:\/\.]*', '', text)
 
     def parseHashtags(self, text):
-        # izbrise hashtage (#hashtag)
-        # ce je treba bolj obdelat: re.findall() ... in potem obdelas najdene
-        # text = re.sub('\#[\w]*', '', text)  # vse hashtage zbrise
-
-        # naprednejsa: izbrise # pri hashtagih
-        #hashtags = re.findall('\#[\w]*', text)  # najde vse hashtage
-        #text = re.sub('\#[\w]*', '[\w]', text)  # vse hashtage zbrise
-        text = " ".join([tag.strip('#') if tag.startswith("#") else tag for tag in text.split()])
-
-        #for h in hashtags:
-        #    h = h[1:]  # odstrani # (nicti znak v nizu)
-        #    text += (h + " ")  # doda hashtag brez # nazaj v niz
-
-        return text
+        """
+        Brisanje hastagov v tweetih
+        """
+        return " ".join([tag.strip('#') if tag.startswith("#") else tag for tag in text.split()])
 
     def parseEmoticons(self, text):
+        """
+        Brisanje emoticone v tweetih
+        """
         POSITIVE = ["*O", "*-*", "*O*", "*o*", "* *",
                     ":P", ":D", ":d", ":p", ";P", ";D", ";d", ";p",
                     ":-)", ";-)", ":=)", ";=)", ":<)", ":>)", ";>)", ";=)",
@@ -74,8 +64,6 @@ class ParseTweets:
                     "xD", "X-D", "XD", "=-D", "2=2D", "=-3", "=3", "B^D", "&lt;3",
                     ]
 
-        # "&lt;3" je <3 je srce
-
         NEGATIVE = [":(", ";(", ":'(", ":'(", ":(", ":-(",
                     "=(", "={", "):", ");",
                     ")':", ")';", ")=", "}=",
@@ -83,7 +71,6 @@ class ParseTweets:
                     ":-(", ";-(", ":,)", ":'{", "[:", ";]",
                     ]
 
-        # lahko tudi pozitivne in negativne posebej in jih zamenjas s cim drugim
         pattern2 = "|".join(map(re.escape, POSITIVE + NEGATIVE))
         text = re.sub(pattern2, '', text)
 
@@ -102,21 +89,11 @@ class ParseTweets:
         return text
 
     def getLanguage(self, text):
-        # izbrise uporabnike (@user)
-        # text = re.sub('@[\w]*', '', text)
-        # izbrise povezave (http...)
-        # text = re.sub('http[\w\:\/\.]*', '', text)
-        # text = self.parseEmoticons(text)
+        """
+        Ugotovi jezik tweeta
+        """
         lan = guess_language(text)
-        if lan != 'ar' and lan != 'fa':
-            lan = 'en'
-        return lan
+        return 'en' if lan != 'ar' and lan != 'fa' else lan
 
 if __name__ == "__main__":
     tt = ParseTweets()
-
-    # zaenkrat samo izpisuje tokene
-    #tt.tokenize("data/corpus/positive.txt")
-
-    # zaenkrat samo izpisuje jezik NOT WORK
-    #tt.getLanguage("data/corpus/positive.txt")

@@ -2,6 +2,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 class TfIdf:
+    """
+    TF-IDF model
+    """
     def __init__(self):
         self.tfidf = None
         pass

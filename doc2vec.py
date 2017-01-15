@@ -52,6 +52,9 @@ class TaggedLineSentence(object):
 
 
 class Doc2vecLearner:
+    """
+    Učenje doc2vec modela
+    """
     def __init__(self):
         self.model = None
         self.pt = ParseTweets()
@@ -75,18 +78,17 @@ class Doc2vecLearner:
         self.model = Doc2Vec.load(model_file)
 
     def doctext_to_vec(self, doc):
+        """
+        Vrni vektorsko predstavitev dokumenta
+        """
         return None if self.model is None else self.model.infer_vector(self.pt.tokenize_one_line(doc))
 
     def doctext_to_word2vec(self, doc):
+        """
+        Vrni povprečno vektrosko predstavitev besede v dokumentu
+        """
         words, _ = self.pt.tokenize_one_line(doc, True)
         return np.mean(np.array([self.model[word] for word in words if word in self.model]), axis=0)
-
-    def doctext_to_word2vec_with_tfidf(self, doc, tf_idf_model, features):
-        words, no_token = self.pt.tokenize_one_line(doc, True)
-        tf_idf_vec = tf_idf_model.transform_tfidf([no_token])
-        # print([tf_idf_vec[0, features.index(word)] for word in words if word in features])
-        return np.mean(np.array([tf_idf_vec[0, features.index(word)] * self.model[word]
-                                 for word in words if word in self.model and word in features]), axis=0)
 
 
 if __name__ == "__main__":

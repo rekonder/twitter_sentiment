@@ -1,16 +1,19 @@
-from preprocessor import ParseTweets
+import csv
 from os import listdir
 from os.path import join
-import csv
+
+from preprocessor import ParseTweets
 
 
 def save_all_tweets_in_one_file():
+    """
+    Shrani samo angleške tweete
+    """
     for data in ["data/corpus/positive.txt", "data/corpus/negative.txt"]:
         print(data)
         with open(data, "r") as tf:
-            lines = tf.readlines()
             tt = ParseTweets()
-            for text in lines:
+            for text in tf.readlines():
                 new_text = tt.tokenize_one_line(text)
                 if tt.getLanguage(new_text) == 'en':
                     with open("data/corpus/all_english1.txt", "a") as tf:
@@ -18,32 +21,34 @@ def save_all_tweets_in_one_file():
 
 
 def clean_dataset():
+    """
+    Predprocesiraj vsaki tweet
+    """
     path = "data/english/data_twits/Subtask_A"
-    path_clean = "data/english/data_twits/Subtask_A_clean"
     for i in listdir(path):
         if i.endswith("semeval_tweets.txt"):
             print(i)
             with open(join(path, i), "r") as fil:
                 try:
-                    reader = csv.reader(fil, delimiter='\t')
-                    for row in reader:
+                    for row in csv.reader(fil, delimiter='\t'):
                         if row[2] != "Not Available":
-                            with open(join(path_clean, i), "a") as tf:
+                            with open(join("data/english/data_twits/Subtask_A_clean", i), "a") as tf:
                                 tf.write("\t".join(row) + "\n")
                 except:
                     pass
 
 
 def join_dataset():
-    #path = "data/english/data_twits/Subtask_A"
+    """
+    Zdreževanje podatkovnih zbirk na učno, testno in testno-učno množico
+    """
     path = "data/english/data_twits/Subtask_A_clean"
     for i in listdir(path):
         if not i.startswith("twitter-2016") or i == "twitter-2016train-A_semeval_tweets.txt":
             print(i, "train")
             with open(join(path, i), "r") as fil:
                 try:
-                    reader = csv.reader(fil, delimiter='\t')
-                    for row in reader:
+                    for row in csv.reader(fil, delimiter='\t'):
                         with open("data/english/data_twits/Subtask_A_clean/train.txt", "a") as tf:
                             tf.write("\t".join(row) + "\n")
                 except:
@@ -52,8 +57,7 @@ def join_dataset():
             print(i, "dev_test")
             with open(join(path, i), "r") as fil:
                 try:
-                    reader = csv.reader(fil, delimiter='\t')
-                    for row in reader:
+                    for row in csv.reader(fil, delimiter='\t'):
                         with open("data/english/data_twits/Subtask_A_clean/dev_test.txt", "a") as tf:
                             tf.write("\t".join(row) + "\n")
                 except:
@@ -62,33 +66,8 @@ def join_dataset():
             print(i, "test")
             with open(join(path, i), "r") as fil:
                 try:
-                    reader = csv.reader(fil, delimiter='\t')
-                    for row in reader:
+                    for row in csv.reader(fil, delimiter='\t'):
                         with open("data/english/data_twits/Subtask_A_clean/test.txt", "a") as tf:
                             tf.write("\t".join(row) + "\n")
                 except:
                     pass
-
-def check_file():
-    first, second = [], []
-    with open("data/english/data_twits/Subtask_A/twitter-2016test-A_semeval_tweets.txt", "r") as fil:
-        try:
-            reader = csv.reader(fil, delimiter='\t')
-            count = 0
-            for row in reader:
-                first.append(row[0])
-                if count == 1163:
-                    print(row[2])
-                count += 1
-        except:
-            print("fck")
-    with open("data/development/4A-English/SemEval2017-task4-dev.subtask-A.english.INPUT.txt", "r") as fil:
-        try:
-            reader = csv.reader(fil, delimiter='\t')
-            for row in reader:
-                second.append(row[0])
-        except:
-            print("fck")
-    print(len(first), len(second))
-
-check_file()

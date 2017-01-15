@@ -1,9 +1,10 @@
-from tweepy import Stream
-from tweepy import OAuthHandler
-from tweepy.streaming import StreamListener
 import json
-import nltk
 import string
+
+import nltk
+from tweepy import OAuthHandler
+from tweepy import Stream
+from tweepy.streaming import StreamListener
 
 access_token = "Dodaj"
 access_token_secret = "Dodaj"
