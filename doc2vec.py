@@ -16,6 +16,7 @@ ch.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 ch.setFormatter(formatter)
 log.addHandler(ch)
+import numpy as np
 
 
 class TaggedLineSentence(object):
@@ -58,10 +59,10 @@ class Doc2vecLearner:
     def learn_doc2vec(self, sources=None, model_save='model/twitter1.d2v', epoch=1, **kwargs):
         if sources is None:
             sources = {'data/corpus/all_english1.txt': 'DATA'}
+        print(model_save)
         sentences = TaggedLineSentence(sources)
         model = Doc2Vec(workers=16, **kwargs)
         model.build_vocab(sentences.to_array())
-
         for num in range(epoch):
             print("EPOCH " + str(num))
             model.train(sentences.sentences_perm())
@@ -76,7 +77,18 @@ class Doc2vecLearner:
     def doctext_to_vec(self, doc):
         return None if self.model is None else self.model.infer_vector(self.pt.tokenize_one_line(doc))
 
+    def doctext_to_word2vec(self, doc):
+        words, _ = self.pt.tokenize_one_line(doc, True)
+        return np.mean(np.array([self.model[word] for word in words if word in self.model]), axis=0)
+
+    def doctext_to_word2vec_with_tfidf(self, doc, tf_idf_model, features):
+        words, no_token = self.pt.tokenize_one_line(doc, True)
+        tf_idf_vec = tf_idf_model.transform_tfidf([no_token])
+        # print([tf_idf_vec[0, features.index(word)] for word in words if word in features])
+        return np.mean(np.array([tf_idf_vec[0, features.index(word)] * self.model[word]
+                                 for word in words if word in self.model and word in features]), axis=0)
+
 
 if __name__ == "__main__":
     a = Doc2vecLearner()
-    a.learn_doc2vec(model_save='model/twitter2.d2v')
+    a.learn_doc2vec(model_save='model/twitter2.d2v', epoch=10)

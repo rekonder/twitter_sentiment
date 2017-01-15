@@ -13,7 +13,7 @@ class ParseTweets:
     def __init__(self):
         pass
 
-    def tokenize_one_line(self, text):
+    def tokenize_one_line(self, text, join=False):
         text = self.parseUsers(text)
         text = self.parseLinks(text)
         text = self.parseHashtags(text)
@@ -22,7 +22,7 @@ class ParseTweets:
         table = text.maketrans({key: None for key in string.punctuation})
         text = text.translate(table)
         tokens = nltk.word_tokenize(text)
-        return " ".join(tokens)
+        return " ".join(tokens) if not join else (tokens, " ".join(tokens))
 
     def tokenize(self, file):
         with open(file, "r") as tf:

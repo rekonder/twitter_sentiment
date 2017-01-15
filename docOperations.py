@@ -68,3 +68,27 @@ def join_dataset():
                             tf.write("\t".join(row) + "\n")
                 except:
                     pass
+
+def check_file():
+    first, second = [], []
+    with open("data/english/data_twits/Subtask_A/twitter-2016test-A_semeval_tweets.txt", "r") as fil:
+        try:
+            reader = csv.reader(fil, delimiter='\t')
+            count = 0
+            for row in reader:
+                first.append(row[0])
+                if count == 1163:
+                    print(row[2])
+                count += 1
+        except:
+            print("fck")
+    with open("data/development/4A-English/SemEval2017-task4-dev.subtask-A.english.INPUT.txt", "r") as fil:
+        try:
+            reader = csv.reader(fil, delimiter='\t')
+            for row in reader:
+                second.append(row[0])
+        except:
+            print("fck")
+    print(len(first), len(second))
+
+check_file()
